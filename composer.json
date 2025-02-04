@@ -7,9 +7,6 @@
             "CloudDark\\OpenRouter\\": "src/"
         }
     },
-    "require": {
-        "php": ">=7.4"
-    },
     "repositories": [
         {
             "type": "vcs",
