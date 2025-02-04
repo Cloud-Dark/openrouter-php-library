@@ -1,6 +1,7 @@
 {
-    "name": "cloud-dark/openrouter",
-    "description": "A simple PHP library to interact with the OpenRouter API",
+    "name": "yourname/openrouterlib",
+    "description": "Your project description",
+    "version": "1.0",
     "autoload": {
         "psr-4": {
             "CloudDark\\OpenRouter\\": "src/"
@@ -8,5 +9,11 @@
     },
     "require": {
         "php": ">=7.4"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Cloud-Dark/openrouter-php-library"
+        }
+    ]
 }
