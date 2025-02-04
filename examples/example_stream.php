@@ -24,7 +24,7 @@ $messages = [
 ];
 
 // Send the request and get the response
-$response = json_decode($openRouter->chat($messages, true));
+$response = json_decode($openRouter->chat($messages, false));
 
 // Output the response
 print_r($response);

@@ -1,86 +1,171 @@
 # CloudDark OpenRouter PHP Library
 
-A simple PHP library to interact with the [OpenRouter API](https://openrouter.ai). This library allows you to send chat messages to the API in both stream and non-stream modes.
+This is a simple PHP wrapper to interact with the [OpenRouter API](https://openrouter.ai). The wrapper allows you to send messages to the OpenRouter AI model and get responses in both **streaming** and **non-streaming** modes.
 
-## Features
+## Requirements
 
-- Support for **streaming** and **non-streaming** modes.
-- Ability to change the **API token** and **model**.
-- Simple and easy-to-use interface.
+- PHP 7.4 or higher
+- Composer
 
 ## Installation
 
-To use the library, follow these steps:
+To get started, you can install the package via Composer.
 
-### 1. Clone the Repository
-
-Clone the repository to your local machine:
+### 1. Clone the repository or initialize it in your project:
 
 ```bash
-git clone https://github.com/cloud-dark/openrouter.git
+composer require cloud-dark/openrouter:dev-main
 ```
 
-### 2. Install Dependencies with Composer
-
-Navigate to the project directory and install dependencies using Composer:
+### 2. Upgrade dependencies using Composer:
 
 ```bash
-cd openrouter
-composer install
+composer upgrade && composer update
 ```
 
-### 3. Autoloading
-
-The library uses Composer's autoloading feature. Simply include the Composer autoload file in your project:
-
-```php
-require_once 'vendor/autoload.php';
-```
+This will install the necessary dependencies and set up the autoloader.
 
 ## Usage
 
-### 1. Basic Example
+Once installed, you can use the `OpenRouter` class to send requests to the OpenRouter API.
 
-Here's how you can use the library to send a message to the OpenRouter API:
+### Example PHP Code
+
+#### 1. **Non-Streaming (Standard Request)**
 
 ```php
-require_once 'path/to/OpenRouter.php';
+<?php
 
-use CloudDark\OpenRouter\OpenRouter;
+// Ensure Composer autoloader is loaded
+require 'vendor/autoload.php';  // No need for full path when using Composer autoload
 
-// Instantiate the OpenRouter class with your API token
-$openRouter = new OpenRouter("your-api-token");
+use CloudDark\OpenRouter\OpenRouter;  // Use the appropriate namespace
 
-// Define the message to send
+// Create an instance of OpenRouter for non-streaming
+$openRouter = new OpenRouter(
+    'your-api-token', // Your OpenRouter API token
+    'mistralai/mixtral-8x7b-instruct' // Model (optional, default is "mistralai/mixtral-8x7b-instruct")
+);
+
+// Prepare the message to send
 $messages = [
-    ["role" => "user", "content" => "Hello"]
+    [
+        'role' => 'system',
+        'content' => 'You are an AI assistant.'
+    ],
+    [
+        'role' => 'user',
+        'content' => 'Hello, AI!'
+    ]
 ];
 
-// Send a message using **non-streaming** mode
-$responseNonStream = $openRouter->chat($messages, false);
-echo "Response (Non-Stream): " . $responseNonStream . "\n";
+// Send the request and get the response
+$response = json_decode($openRouter->chat($messages, true));
 
-// Send a message using **streaming** mode
-$responseStream = $openRouter->chat($messages, true);
-echo "Response (Stream): " . $responseStream . "\n";
+// Output the response
+print_r($response);
+?>
 ```
 
-### 2. Set Custom Model
-
-You can customize the model used for the request. For example, to change the model:
+#### 2. **Streaming (Real-time Request)**
 
 ```php
-$openRouter->setModel("mistralai/other-model-name");
+<?php
+
+// Ensure Composer autoloader is loaded
+require 'vendor/autoload.php';  // No need for full path when using Composer autoload
+
+use CloudDark\OpenRouter\OpenRouter;  // Use the appropriate namespace
+
+// Create an instance of OpenRouter for non-streaming
+$openRouter = new OpenRouter(
+    'your-api-token', // Your OpenRouter API token
+    'mistralai/mixtral-8x7b-instruct' // Model (optional, default is "mistralai/mixtral-8x7b-instruct")
+);
+
+// Prepare the message to send
+$messages = [
+    [
+        'role' => 'system',
+        'content' => 'You are an AI assistant.'
+    ],
+    [
+        'role' => 'user',
+        'content' => 'Hello, AI!'
+    ]
+];
+
+// Send the request and get the response
+$response = json_decode($openRouter->chat($messages, false));
+
+// Output the response
+print_r($response);
+?>
 ```
 
-### 3. Change API Token
+### Expected Response
 
-If you need to change the API token, you can do so by calling the `setToken` method:
+The expected response from the OpenRouter API can vary based on the mode.
 
-```php
-$openRouter->setToken("your-new-api-token");
+#### Non-Streaming Response:
+
+The response for non-streaming will be a complete JSON object, similar to:
+
 ```
+stdClass Object
+(
+    [id] => gen-1738686490-prk4jkf3l7In1GdYKoAI
+    [provider] => DeepInfra
+    [model] => mistralai/mixtral-8x7b-instruct
+    [object] => chat.completion
+    [created] => 1738686490
+    [choices] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [logprobs] =>
+                    [finish_reason] => stop
+                    [native_finish_reason] => stop
+                    [index] => 0
+                    [message] => stdClass Object
+                        (
+                            [role] => assistant
+                            [content] =>  Hello! How can I assist you today? I'm here to help answer your questions, provide information, and facilitate any tasks you need help with. Let me know what you need.
+                            [refusal] =>
+                        )
+
+                )
+
+        )
+
+    [usage] => stdClass Object
+        (
+            [prompt_tokens] => 19
+            [completion_tokens] => 38
+            [total_tokens] => 57
+        )
+
+)
+```
+
+#### Streaming Response:
+
+In the case of streaming, the data will be received and output in real-time. The response will be directly displayed as it is processed, which could look like:
+
+```json
+"Hello! It's nice to meet you. I'm here to help answer any questions..."
+```
+
+The output will be displayed as chunks of data in the browser as they are received from the API.
+
+## Customization
+
+You can customize the `OpenRouter` class by adjusting the URL, token, or model that you're using to interact with the OpenRouter API.
+
+- **Set Token:** `setToken('your-api-token')`
+- **Set Model:** `setModel('your-model-id')`
+- **Enable/Disable Streaming:** `chat($messages, true)` for streaming or `chat($messages, false)` for non-streaming.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is open-source and available under the [MIT License](LICENSE).
