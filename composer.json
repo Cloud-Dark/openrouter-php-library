@@ -1,0 +1,12 @@
+{
+    "name": "cloud-dark/openrouter",
+    "description": "A simple PHP library to interact with the OpenRouter API",
+    "autoload": {
+        "psr-4": {
+            "CloudDark\\OpenRouter\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    }
+}
