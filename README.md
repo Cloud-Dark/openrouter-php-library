@@ -152,8 +152,19 @@ stdClass Object
 
 In the case of streaming, the data will be received and output in real-time. The response will be directly displayed as it is processed, which could look like:
 
-```json
-"Hello! It's nice to meet you. I'm here to help answer any questions..."
+```bash
+: OPENROUTER PROCESSING
+
+data: {"id":"gen-1752162887-d4GeVQ1Wdg06gaa0YgwE","provider":"Google AI Studio","model":"google/gemini-2.0-flash-exp:free","object":"chat.completion.chunk","created":1752162887,"choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"},"finish_reason":null,"native_finish_reason":null,"logprobs":null}]}
+
+data: {"id":"gen-1752162887-d4GeVQ1Wdg06gaa0YgwE","provider":"Google AI Studio","model":"google/gemini-2.0-flash-exp:free","object":"chat.completion.chunk","created":1752162887,"choices":[{"index":0,"delta":{"role":"assistant","content":" there! How"},"finish_reason":null,"native_finish_reason":null,"logprobs":null}]}
+
+data: {"id":"gen-1752162887-d4GeVQ1Wdg06gaa0YgwE","provider":"Google AI Studio","model":"google/gemini-2.0-flash-exp:free","object":"chat.completion.chunk","created":1752162887,"choices":[{"index":0,"delta":{"role":"assistant","content":" can I help you today?\n"},"finish_reason":"stop","native_finish_reason":"STOP","logprobs":null}]}
+
+data: {"id":"gen-1752162887-d4GeVQ1Wdg06gaa0YgwE","provider":"Google AI Studio","model":"google/gemini-2.0-flash-exp:free","object":"chat.completion.chunk","created":1752162887,"choices":[{"index":0,"delta":{"role":"assistant","content":""},"finish_reason":null,"native_finish_reason":null,"logprobs":null}],"usage":{"prompt_tokens":10,"completion_tokens":11,"total_tokens":21}}
+
+data: [DONE]
+
 ```
 
 The output will be displayed as chunks of data in the browser as they are received from the API.
